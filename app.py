@@ -69,17 +69,18 @@ def register_error_handlers(app):
         app.logger.error(f"500 Error: {error}")
         return jsonify({"error": "Internal server error", "status_code": 500}), 500
 
-    @app.errorhandler(413)
+        @app.errorhandler(413)
     def request_entity_too_large(error):
         app.logger.warning("413 Error: File upload exceeded MAX_CONTENT_LENGTH.")
         return jsonify({"error": "File too large", "status_code": 413}), 413
 
+# For Gunicorn
+app = create_app(os.environ.get("FLASK_ENV", "development"))
+
 if __name__ == '__main__':
-    # Determine the config based on environment variable, defaulting to development
     env = os.environ.get('FLASK_ENV', 'development')
     app = create_app(env)
 
-    # Run the application
     port = int(os.environ.get("PORT", 5000))
 
     app.run(
