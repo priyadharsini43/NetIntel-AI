@@ -78,11 +78,13 @@ if __name__ == '__main__':
     # Determine the config based on environment variable, defaulting to development
     env = os.environ.get('FLASK_ENV', 'development')
     app = create_app(env)
-    
+
     # Run the application
+    port = int(os.environ.get("PORT", 5000))
+
     app.run(
-    host='127.0.0.1',
-    port=5000,
-    debug=app.config['DEBUG'],
-    use_reloader=False
-)
+        host="0.0.0.0",
+        port=port,
+        debug=app.config["DEBUG"],
+        use_reloader=False
+    )
